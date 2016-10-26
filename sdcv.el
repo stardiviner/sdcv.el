@@ -174,6 +174,17 @@
   :type 'list
   :group 'sdcv)
 
+(defcustom sdcv-popup-function 'pos-tip-show
+  "The popup function for showing result."
+  :type '(choice
+          :tag "An option to set use which popup function."
+          (const :tag "pos-tip" pos-tip-show)
+          (const :tag "popup" popup-tip)
+          (const :tag "showtip" showtip)
+          (const :tag "tooltip" tooltip-show)
+          (function :tag "user custom popup function"))
+  :group 'sdcv)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Variable ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar sdcv-previous-window-configuration nil
   "Window configuration before switching to sdcv buffer.")
@@ -365,7 +376,8 @@ The result will be displayed in buffer named with
 
 (defun sdcv-search-simple (&optional word)
   "Search WORD simple translate result."
-  (pos-tip-show ; showtip, pos-tip-show, popup-tip, tooltip-show
+  (funcall
+   sdcv-popup-function
    (sdcv-search-witch-dictionary word sdcv-dictionary-simple-list))
 
   ;; pronounce the word (Add by me)
