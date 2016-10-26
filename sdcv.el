@@ -10,7 +10,7 @@
 ;;           By: Andy Stewart
 ;; URL: http://www.emacswiki.org/emacs/download/sdcv.el
 ;; Keywords: startdict, sdcv
-;; Package-Requires: ((emacs "24.3") (popup "0.5.3") (showtip "0.01") (pos-tip "0.4.6") (cl "0.1") (outline "0.1"))
+;; Package-Requires: ((emacs "24.3") (popup "0.5.3") (showtip "0.01") (pos-tip "0.4.6") (cl-lib "0.3"))
 
 ;;; License
 ;;
