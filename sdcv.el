@@ -214,20 +214,22 @@
     )
   "Expressions to highlight in `sdcv-mode'.")
 
-(defvar sdcv-mode-map                   ;key map
+(defvar sdcv-mode-map
   (let ((map (make-sparse-keymap)))
-    ;; Sdcv command.
+    ;; sdcv result buffer commands.
     (define-key map "q" 'sdcv-quit)
     (define-key map "j" 'sdcv-next-line)
     (define-key map "k" 'sdcv-prev-line)
+    (define-key map "l" 'forward-char)
+    (define-key map "h" 'backward-char)
     (define-key map "J" 'sdcv-scroll-up-one-line)
     (define-key map "K" 'sdcv-scroll-down-one-line)
-    (define-key map "d" 'sdcv-next-dictionary)
-    (define-key map "f" 'sdcv-previous-dictionary)
+    (define-key map "M-g M-n" 'sdcv-next-dictionary)
+    (define-key map "M-g M-p" 'sdcv-previous-dictionary)
     (define-key map "i" 'sdcv-search-input)
-    (define-key map ";" 'sdcv-search-input+)
+    (define-key map "I" 'sdcv-search-input+)
     (define-key map "p" 'sdcv-search-pointer)
-    (define-key map "y" 'sdcv-search-pointer+)
+    (define-key map "P" 'sdcv-search-pointer+)
     ;; Isearch.
     (define-key map "S" 'isearch-forward-regexp)
     (define-key map "R" 'isearch-backward-regexp)
@@ -241,8 +243,6 @@
     ;; Misc.
     (define-key map "e" 'scroll-down)
     (define-key map " " 'scroll-up)
-    (define-key map "l" 'forward-char)
-    (define-key map "h" 'backward-char)
     (define-key map "?" 'describe-mode)
     map)
   "Keymap for `sdcv-mode'.")
