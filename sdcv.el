@@ -157,7 +157,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Customize ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defgroup sdcv nil
   "Interface for sdcv (StartDict console version)."
-  :group 'edit)
+  :group 'editing)
 
 (defcustom sdcv-buffer-name "*SDCV*"
   "The name of the buffer of sdcv."
