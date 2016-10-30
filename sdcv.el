@@ -190,6 +190,16 @@
   :type 'boolean
   :group 'sdcv)
 
+(defcustom sdcv-word-pronounce-command "espeak"
+  "Specify word pronounce command."
+  :type 'string
+  :group 'sdcv)
+
+(defcustom sdcv-word-pronounce-command-args "-v en"
+  "Specify word pronounce command arguments."
+  :type 'string
+  :group 'sdcv)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Variable ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar sdcv-previous-window-configuration nil
   "Window configuration before switching to sdcv buffer.")
@@ -468,8 +478,10 @@ Otherwise return word around point."
 (defun sdcv-pronounce-word (&optional word)
   "Pronounce `WORD' after querying."
   (shell-command-to-string
-   (format "espeak -v en %s &" (shell-quote-argument word)))
-  )
+   (format "%s %s %s &"
+           sdcv-word-pronounce-command sdcv-word-pronounce-command-args
+           (shell-quote-argument word))))
+
 
 (provide 'sdcv)
 
