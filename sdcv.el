@@ -466,8 +466,9 @@ Otherwise return word around point."
 
 ;;; I add this function to pronounce
 (defun sdcv-pronounce-word (&optional word)
+  "Pronounce `WORD' after querying."
   (shell-command-to-string
-   (format "espeak -v en %s &" word))
+   (format "espeak -v en %s &" (shell-quote-argument word)))
   )
 
 (provide 'sdcv)
