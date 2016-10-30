@@ -185,6 +185,11 @@
           (function :tag "user custom popup function"))
   :group 'sdcv)
 
+(defcustom sdcv-word-pronounce t
+  "Auto pronounce word."
+  :type 'boolean
+  :group 'sdcv)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Variable ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (defvar sdcv-previous-window-configuration nil
   "Window configuration before switching to sdcv buffer.")
@@ -381,9 +386,11 @@ The result will be displayed in buffer named with
    (sdcv-search-witch-dictionary word sdcv-dictionary-simple-list))
 
   ;; pronounce the word (Add by me)
-  ;; `sleep-for', `sit-for'.
-  (sleep-for 1)
-  (sdcv-pronounce-word word)
+  (when sdcv-word-pronounce
+    ;; `sleep-for', `sit-for'.
+    (sleep-for 1)
+    (sdcv-pronounce-word word)
+    )
   )
 
 (defun sdcv-search-witch-dictionary (word dictionary-list)
