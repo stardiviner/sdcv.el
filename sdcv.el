@@ -415,7 +415,7 @@ Argument DICTIONARY-LIST the word that need transform."
    (shell-command-to-string
     (format "sdcv -n %s %s"
             (mapconcat (lambda (dict)
-                         (concat "-u " dict))
+                         (concat "-u " "\"" dict "\"")
                        dictionary-list " ") word))))
 
 (defun sdcv-filter (sdcv-string)
