@@ -406,17 +406,17 @@ The result will be displayed in buffer named with
 (defun sdcv-search-witch-dictionary (word dictionary-list)
   "Search some WORD with dictionary list.
 Argument DICTIONARY-LIST the word that need transform."
-  ;; Get translate object.
-  (or word (setq word (sdcv-region-or-word)))
-  ;; Record current translate object.
-  (setq sdcv-current-translate-object word)
-  ;; Return translate result.
-  (sdcv-filter
-   (shell-command-to-string
-    (format "sdcv -n %s %s"
-            (mapconcat (lambda (dict)
-                         (concat "-u " "\"" dict "\"")
-                       dictionary-list " ") word))))
+       ;; Get translate object.
+       (or word (setq word (sdcv-region-or-word)))
+       ;; Record current translate object.
+       (setq sdcv-current-translate-object word)
+       ;; Return translate result.
+       (sdcv-filter
+        (shell-command-to-string
+         (format "sdcv -n %s %s"
+                 (mapconcat (lambda (dict)
+                              (concat "-u " "\"" dict "\""))
+                            dictionary-list " ") word))))
 
 (defun sdcv-filter (sdcv-string)
   "This function is for filter sdcv output string,.
