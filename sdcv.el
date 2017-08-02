@@ -373,16 +373,21 @@ The result will be displayed in buffer named with
   (with-current-buffer (get-buffer-create sdcv-buffer-name)
     (setq buffer-read-only nil)
     (erase-buffer)
-    (let* ((process
-            (start-process
-             "sdcv" sdcv-buffer-name "sdcv"
-             (sdcv-search-witch-dictionary word sdcv-dictionary-complete-list))))
+    (let ((process
+           (apply #'start-process
+                  "sdcv" sdcv-buffer-name "sdcv"
+                  (sdcv-search-with-dictionary-args
+                   (or word (sdcv-region-or-word))
+                   sdcv-dictionary-complete-list))))
       (set-process-sentinel
        process
        (lambda (process signal)
          (when (memq (process-status process) '(exit signal))
            (unless (eq (current-buffer) (sdcv-get-buffer))
              (sdcv-goto-sdcv))
+           (let ((str (sdcv-filter (buffer-string))))
+             (erase-buffer)
+             (insert str))
            (sdcv-mode-reinit))))))
 
   ;; pronounce the word (Add by me)
@@ -393,7 +398,13 @@ The result will be displayed in buffer named with
   "Search WORD simple translate result."
   (funcall
    sdcv-popup-function
-   (sdcv-search-witch-dictionary word sdcv-dictionary-simple-list))
+   (sdcv-filter
+    (shell-command-to-string
+     (mapconcat #'identity
+                (cons "sdcv" (sdcv-search-with-dictionary-args
+                              (or word (sdcv-region-or-word))
+                              sdcv-dictionary-simple-list))
+                " "))))
 
   ;; pronounce the word (Add by me)
   (when sdcv-word-pronounce
@@ -403,20 +414,16 @@ The result will be displayed in buffer named with
     )
   )
 
-(defun sdcv-search-witch-dictionary (word dictionary-list)
-  "Search some WORD with dictionary list.
-Argument DICTIONARY-LIST the word that need transform."
-       ;; Get translate object.
-       (or word (setq word (sdcv-region-or-word)))
-       ;; Record current translate object.
-       (setq sdcv-current-translate-object word)
-       ;; Return translate result.
-       (sdcv-filter
-        (shell-command-to-string
-         (format "sdcv -n %s %s"
-                 (mapconcat (lambda (dict)
-                              (concat "-u " "\"" dict "\""))
-                            dictionary-list " ") word))))
+(defun sdcv-search-with-dictionary-args (word dictionary-list)
+  "Construct list of arguments to search for WORD.
+
+Specify dictionaries to search in DICTIONARY-LIST."
+  (setq sdcv-current-translate-object word)
+  (let ((args `("-n" ,(substring-no-properties word))))
+    (dolist (dict dictionary-list)
+      (push (concat "\"" dict "\"") args)
+      (push "-u" args))
+    args))
 
 (defun sdcv-filter (sdcv-string)
   "This function is for filter sdcv output string,.
