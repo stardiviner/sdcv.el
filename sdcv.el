@@ -386,8 +386,9 @@ The result will be displayed in buffer named with
            (unless (eq (current-buffer) (sdcv-get-buffer))
              (sdcv-goto-sdcv))
            (let ((str (sdcv-filter (buffer-string))))
-             (erase-buffer)
-             (insert str))
+             (let ((inhibit-read-only t))
+               (erase-buffer)
+               (insert str)))
            (sdcv-mode-reinit))))))
 
   ;; pronounce the word (Add by me)
