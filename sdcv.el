@@ -485,11 +485,12 @@ Otherwise return word around point."
 ;;; I add this function to pronounce
 (defun sdcv-pronounce-word (&optional word)
   "Pronounce `WORD' after querying."
-  (shell-command-to-string
-   (format "%s %s %s &"
-           sdcv-word-pronounce-command sdcv-word-pronounce-command-args
-           (shell-quote-argument word))))
-
+  (call-process-shell-command
+   sdcv-word-pronounce-command
+   nil nil nil
+   sdcv-word-pronounce-command-args
+   (shell-quote-argument word)
+   ))
 
 (provide 'sdcv)
 
