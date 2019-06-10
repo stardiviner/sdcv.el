@@ -422,7 +422,7 @@ Specify dictionaries to search in DICTIONARY-LIST."
   (setq sdcv-current-translate-object word)
   (let ((args `("-n" ,(substring-no-properties word))))
     (dolist (dict dictionary-list)
-      (push (concat "\"" dict "\"") args)
+      (push dict args)
       (push "-u" args))
     args))
 
