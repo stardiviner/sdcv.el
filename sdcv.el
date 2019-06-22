@@ -251,9 +251,9 @@
     (define-key map "s" 'isearch-forward)
     (define-key map "r" 'isearch-backward)
     ;; Hideshow.
-    (define-key map "a" 'show-all)
+    (define-key map "a" 'outline-show-all)
     (define-key map "A" 'hide-body)
-    (define-key map "v" 'show-entry)
+    (define-key map "v" 'outline-show-entry)
     (define-key map "V" 'hide-entry)
     ;; Misc.
     (define-key map "e" 'scroll-down)
@@ -321,7 +321,7 @@ And show information use tooltip."
 (defun sdcv-next-dictionary ()
   "Jump to next dictionary."
   (interactive)
-  (show-all)
+  (outline-show-all)
   (if (search-forward-regexp "^-->.*\n-" nil t) ;don't show error when search failed
       (progn
         (call-interactively 'previous-line)
@@ -331,7 +331,7 @@ And show information use tooltip."
 (defun sdcv-previous-dictionary ()
   "Jump to previous dictionary."
   (interactive)
-  (show-all)
+  (outline-show-all)
   (if (search-backward-regexp "^-->.*\n-" nil t) ;don't show error when search failed
       (progn
         (forward-char 1)
@@ -356,7 +356,7 @@ And show information use tooltip."
     (save-excursion
       (beginning-of-line nil)
       (when (looking-at outline-regexp)
-        (show-entry)))))
+        (outline-show-entry)))))
 
 (defun sdcv-prev-line (arg)
   "Previous ARG line."
@@ -463,7 +463,7 @@ the beginning of the buffer."
     (setq buffer-read-only t)
     (goto-char (point-min))
     (sdcv-next-dictionary)
-    (show-all)
+    (outline-show-all)
     (message "Have search finished with `%s'." sdcv-current-translate-object)))
 
 (defun sdcv-prompt-input ()
